@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 
 class TrendingAdapter(
@@ -17,7 +18,7 @@ class TrendingAdapter(
     position: Int,
 
     ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() ,Filterable{
     var FilterList = ArrayList<trendinglist>()
     var selectedPosition = position
     private var listener: TrendingAdapterListner? = null
@@ -42,9 +43,8 @@ class TrendingAdapter(
     }
 
     override fun getItemCount(): Int {
-        return FilterList?.size ?: 0
+        return FilterList.size
     }
-
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -54,11 +54,18 @@ class TrendingAdapter(
                 else {
                     val filteredList = ArrayList<trendinglist>()
 
+//                    for (s in repolist) {
+//                        if (s.description.toLowerCase().contains(charString) || s.getText2().toLowerCase()
+//                                .contains(text)
+//                        ) {
+//                            filterdNames.add(s)
+//                        }
+//                    }
                     repolist.filter {
-                        (it.description.contains(constraint!!)) or
-                                (it.username.contains(constraint)) or
-                                (it.reponame.contains(constraint)) or
-                                (it.language.contains(constraint))
+                        (it.description.toLowerCase().contains(charString!!)) or
+                                (it.username.toLowerCase().contains(charString)) or
+                                (it.reponame.toLowerCase().contains(charString)) or
+                                (it.language.toLowerCase().contains(charString))
 
 
                     }
@@ -94,7 +101,7 @@ class TrendingAdapter(
     private fun addview(holder: TrendingAdapter.TrendingViewHolder, position: Int) {
 
 
-        val listitem = repolist?.get(position)
+        val listitem = FilterList?.get(position)
         holder.desc.text = listitem.description
         holder.stars.text = listitem.totalStars.toString() + "   "
         holder.repo.text = listitem.reponame

@@ -31,10 +31,11 @@ class TrendingActivity : AppCompatActivity() {
             val message = savedInstanceState.getInt("position")
             position = message
         }
-
+        binding.repoSearch.visibility=View.GONE
         mViewModel = ViewModelProvider(this).get(TrendingViewModel::class.java)
-        mViewModel.getItemDetails()
-
+        Thread {
+            mViewModel.getItemDetails()
+        }.start()
         observerInit()
         initsearch()
 
@@ -45,12 +46,14 @@ class TrendingActivity : AppCompatActivity() {
 
         binding.repoSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                listadapter.filter.filter(query)
+              //  listadapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                listadapter.filter.filter(newText)
+                if (newText != null) {
+                    listadapter.filter!!.filter(newText)
+                }
                 return false
             }
 
@@ -78,7 +81,6 @@ class TrendingActivity : AppCompatActivity() {
 
             })
             adapter = listadapter
-            listadapter.notifyDataSetChanged()
 
         }
     }
@@ -91,6 +93,7 @@ class TrendingActivity : AppCompatActivity() {
             binding.mainProgress.visibility = View.GONE
             repolist = it
             billinglisting()
+            binding.repoSearch.visibility=View.VISIBLE
 
         })
 
