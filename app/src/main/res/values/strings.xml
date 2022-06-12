@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GitHubRepos</string>
+    <string name="no_internet_connection">No Internet</string>
+    <string name="Rupeesamount300">\u20B9</string>
+    <string name="billing_text">GitRepos</string>
+
+</resources>
